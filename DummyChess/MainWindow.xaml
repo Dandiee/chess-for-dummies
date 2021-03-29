@@ -1,0 +1,56 @@
+﻿<Window x:Class="DummyChess.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DummyChess"
+        xmlns:views="clr-namespace:DummyChess.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+
+            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding CurrentPlayer.Name, StringFormat={}Current plyer: {0}}"  HorizontalAlignment="Center"/>
+            <TextBlock Text="In check!" FontSize="20" Foreground="OrangeRed" FontWeight="Bold" HorizontalAlignment="Center">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentPlayer.IsInCheck}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding CurrentPlayer.IsInCheck}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+        </StackPanel>
+
+        <views:Graveyard Grid.Column="0" Grid.Row="1" DataContext="{Binding Player1}" />
+        <views:Graveyard Grid.Column="2" Grid.Row="1" DataContext="{Binding Player2}" />
+
+        <Border  Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+            <Grid x:Name="GridBoard">
+                <views:CellsUserControl DataContext="{Binding }"/>
+                <views:PlayerPiecesUserControl DataContext="{Binding Player1}"/>
+                <views:PlayerPiecesUserControl DataContext="{Binding Player2}"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+
+
+</Window>
